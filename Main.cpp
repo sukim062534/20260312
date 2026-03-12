@@ -1,63 +1,87 @@
 #include <iostream>
+#include <conio.h>
 
 using namespace std;
 
-void Initialize(int* Pocket, int Size);
-void Shuffle(int* Pocket, int Size);
-void Pick(int* Pocket, int Size, int PickCount);
+
 
 int main()
 {
-	int Size = 0;
-	int PickCount = 0;
+	int Game[10][10] =
+	{
+	{ 1,1,1,1,1,1,1,1,1,1 },
+	{ 1,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,1 },
+	{ 1,0,0,0,0,0,0,0,0,1 },
+	{ 1,1,1,1,1,1,1,1,1,1 }
+	};
 
-	cin >> Size;
-	cin >> PickCount;
+	int PlayerX = 1;
+	int PlayerY = 1;
 
-	int* Pocket = new int[Size];
+	for (;;)
+	{
+		for (int Y = 0; Y < 10; ++Y)
+		{
+			for (int X = 0; X < 10; ++X)
+			{
+
+				if (PlayerX == X && PlayerY == Y)
+				{
+					cout << "P";
+				}
+				else if (Game[Y][X] == 1)
+				{
+					cout << "#";
+
+				}
+				else if (Game[Y][X] == 0)
+				{
+					cout << " ";
+				}
+
+			}
+			cout << endl;
+		}
 	
-	Initialize(Pocket, Size);
+		int Key;
+		Key = _getch();
+		
+		if (Key == 'w')
+		{
+			if (Game[PlayerY - 1][PlayerX] == 0)
+			{
+				PlayerY--;
+			}
+		}
+		if (Key == 'a')
+		{
+			if (Game[PlayerY][PlayerX - 1] == 0)
+			{
+				PlayerX--;
+			}
+		}
+		if (Key == 's')
+		{
+			if (Game[PlayerY+1][PlayerX] == 0)
+			{
+				PlayerY++;
+			}
+		}
+		if (Key == 'd')
+		{
+			if (Game[PlayerY][PlayerX +1] == 0)
+			{
+				PlayerX++;
+			}
+		}
 
-	Shuffle(Pocket, Size);
-
-	Pick(Pocket, Size, PickCount);
-
-	delete[] Pocket; 
-
-	Pocket = nullptr;
-
+		system("cls");
+	}
 	return 0;
-}
-void Initialize(int* Pocket, int Size)
-{
-	srand((unsigned int)time(NULL));
-
-	for (int i = 0; i < Size; i++)
-	{
-		Pocket[i] = i + 1;
-	}
-}
-void Shuffle(int* Pocket, int Size)
-{
-	for (int i = 0; i < Size * 10; i++)
-	{
-		int First = rand() % Size;
-		int Second = rand() % Size;
-
-		int Temp = Pocket[First];
-		*(Pocket + First) = Pocket[Second];
-		Pocket[Second] = Temp;
-	}
-}
-void Pick(int* Pocket, int Size, int PickCount)
-{
-	if (Size < PickCount)
-	{
-		return;
-	}
-
-	for (int i = 0; i < PickCount; i++)
-	{
-		cout << Pocket[i] << ", ";
-	}
 }
