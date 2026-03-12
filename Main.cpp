@@ -1,94 +1,65 @@
 #include <iostream>
-#include <conio.h>
+#include "Engin.h"
 
 using namespace std;
 
-void GameMap(int Game[10][10], int& PlayerX, int& PlayerY);
-void GameKey(int Game[10][10], int& PlayerX, int& PlayerY);
-
-int main()
+struct InnerType
 {
-	int Game[10][10] =
+	int A;
+	int B;
+};
+struct CustomDataType
+{
+	int A;
+	int B;
+	float C;
+	bool D;
+	InnerType Inner;
+};
+
+class AActor
+{
+public:
+	int X;
+	int Y;
+
+	void Add()
 	{
-	{ 1,1,1,1,1,1,1,1,1,1 },
-	{ 1,0,0,0,0,0,0,0,0,1 },
-	{ 1,0,0,0,0,0,0,0,0,1 },
-	{ 1,0,0,0,0,0,0,0,0,1 },
-	{ 1,0,0,0,0,0,0,0,0,1 },
-	{ 1,0,0,0,0,0,0,0,0,1 },
-	{ 1,0,0,0,0,0,0,0,0,1 },
-	{ 1,0,0,0,0,0,0,0,0,1 },
-	{ 1,0,0,0,0,0,0,0,0,1 },
-	{ 1,1,1,1,1,1,1,1,1,1 }
-	};
 
-	int PlayerX = 1;
-	int PlayerY = 1;
-
-	for (;;)
-	{	
-		system("cls");
-		GameMap(Game,PlayerX, PlayerY);
-		GameKey(Game, PlayerX, PlayerY);
 	}
+	void Move()
+	{
+		this->Add();
+	}
+
+};
+
+
+int main()//엔진 실행
+{
+	CustomDataType Data;
+	CustomDataType* P = &Data;
+	Data.A=1;
+	std::cout << (*P).A;
+	std::cout << P->A;
+
+	AActor* Player = nullptr;
+	Player = new AActor();
+
+	Player->Move();//플레이어가 움직인다
+
+	delete Player;
+	Player = nullptr;
+
+	bool bIsRunning = true;
+
+	//Gameloop
+	while (bIsRunning) //frame
+	{
+		int KeyCode = Input();
+		Tick(KeyCode);
+		Render();
+	}
+
 	return 0;
-}
-void GameMap(int Game[10][10], int& PlayerX, int& PlayerY)
-{
-	for (int Y = 0; Y < 10; ++Y)
-	{
-		for (int X = 0; X < 10; ++X)
-		{
-
-			if (PlayerX == X && PlayerY == Y)
-			{
-				cout << "P";
-			}
-			else if (Game[Y][X] == 1)
-			{
-				cout << "#";
-
-			}
-			else if (Game[Y][X] == 0)
-			{
-				cout << " ";
-			}
-
-		}
-		cout << endl;
-	}
-}
-void GameKey(int Game[10][10], int& PlayerX, int& PlayerY)
-{
-	int Key;
-	Key = _getch();
-
-	if (Key == 'w')
-	{
-		if (Game[PlayerY - 1][PlayerX] == 0)
-		{
-			PlayerY--;
-		}
-	}
-	if (Key == 'a')
-	{
-		if (Game[PlayerY][PlayerX - 1] == 0)
-		{
-			PlayerX--;
-		}
-	}
-	if (Key == 's')
-	{
-		if (Game[PlayerY + 1][PlayerX] == 0)
-		{
-			PlayerY++;
-		}
-	}
-	if (Key == 'd')
-	{
-		if (Game[PlayerY][PlayerX + 1] == 0)
-		{
-			PlayerX++;
-		}
-	}
 }
